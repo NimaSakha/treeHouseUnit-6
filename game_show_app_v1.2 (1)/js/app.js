@@ -11,6 +11,7 @@ const num = Math.floor(Math.random()*5);
 const letter = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
 let word = "";
+let letterVal = -1;
 
 const guess = phrase[num];
 
@@ -29,33 +30,31 @@ function key(key){
 }
 console.log(guess.length);
 keyBoard.addEventListener('click', (e) =>{
-    let letterVal = 0;
+    
     for (let i = 0; i < letter.length; i ++){
         if( e.target.textContent === letter[i] ){
-            
-    
-            const letters = guess.charAt(letterVal) ;
-            if (letters === letter[i]){
-                word += letter[i];
-                
+            word += letter[i];
+            letterVal ++;
+            if (letter[i] === guess[letterVal]){
+            } else{
+                lives --;
+                console.log("die");
             }
             section.textContent = word;
-            if(word.length === guess.length){
-                if (section.textContent === guess){
-                    console.log("you win");
-                } else{
-                    lives -= 1;
-                }
-                function die(){
-                    
-                }
-            }
-            
+            console.log(lives);
         }
-        
     }
-    letterVal += 1;
+    if(word.length === guess.length){
+        if (section.textContent === guess){
+            console.log("you win");
+        }
+    }
+    if (lives === 0){
+        console.log("dead");
+    }
 });
+
+
 
 
 
