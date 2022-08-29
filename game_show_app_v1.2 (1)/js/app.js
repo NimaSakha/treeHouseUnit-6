@@ -2,9 +2,9 @@ const overlay = document.querySelector('.start');
 const startBTN = document.querySelector('.btn__reset');
 const keyBoard = document.querySelector("#qwerty");
 const button  = document.getElementsByTagName('button');
-const section = document.querySelector('.word')
+const section = document.querySelector('#phrase')
 const phrase = ['world', 'guest', 'magic', 'green', 'juice'];
-let lives = 5;
+let missed = 0;
 
 const num = Math.floor(Math.random()*5);
 
@@ -37,11 +37,11 @@ keyBoard.addEventListener('click', (e) =>{
             letterVal ++;
             if (letter[i] === guess[letterVal]){
             } else{
-                lives --;
+                missed ++;
                 console.log("die");
             }
             section.textContent = word;
-            console.log(lives);
+            console.log(missed);
         }
     }
     if(word.length === guess.length){
@@ -49,7 +49,7 @@ keyBoard.addEventListener('click', (e) =>{
             console.log("you win");
         }
     }
-    if (lives === 0){
+    if (missed === 5){
         console.log("dead");
     }
 });
