@@ -3,6 +3,7 @@ const startBTN = document.querySelector('.btn__reset');
 const keyBoard = document.querySelector("#qwerty");
 const button  = document.getElementsByTagName('button');
 const section = document.querySelector('#phrase')
+const win = document.querySelector('.win');
 const phrase = ['world', 'guest', 'magic', 'green', 'juice'];
 let missed = 0;
 
@@ -23,11 +24,11 @@ startBTN.addEventListener('click', () =>{
     overlay.style.display = 'none';
 });
 
-function key(key){
-    key.addEventListener('click', () => {
-        word += key;
-    });
-}
+// function key(key){
+//     key.addEventListener('click', () => {
+//         word += key;
+//     });
+// }
 console.log(guess.length);
 keyBoard.addEventListener('click', (e) =>{
     
@@ -52,6 +53,7 @@ keyBoard.addEventListener('click', (e) =>{
     if (missed === 5){
         console.log("dead");
     }
+    win.style.display = "flex";
 });
 
 
