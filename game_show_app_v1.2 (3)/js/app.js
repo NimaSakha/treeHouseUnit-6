@@ -1,11 +1,10 @@
 // dom variable
-const overlay = document.querySelector('.start');
+const overlay = document.querySelector('#overlay');
 const startBTN = document.querySelector('.btn__reset');
 const keyBoard = document.querySelector("#qwerty");
 const button  = document.getElementsByTagName('button');
-const section = document.querySelector('#phrase')
 const win = document.querySelector('.win');
-const list = document.querySelector('.ul');
+const list = document.querySelector('#phrase ul');
 
 // word guess var 
 const phrase = ['world', 'resting', 'magic', 'green', 'tickle'];
@@ -16,18 +15,22 @@ const guess = phrase[num];
 //lives var
 let missed = 0;
 let letterVal = -1;
-let right = true;
+let right = 0;
+let wrong = 0;
+let time  = 0;
+let done = [];
 //tests
 console.log(guess);
 
 //start btn 
 startBTN.addEventListener('click', () =>{
-    event.preventDefault();
+    if(startBTN.textContent !== 'Start Game'){
+        location. reload()
+    }
     overlay.style.display = 'none';
 });
 
 //word display 
-console.log(guess.length);
 for (let i = 0; i < guess.length; i++){
     const x = document.createElement("LI");
     x.className = "letter";
@@ -44,25 +47,41 @@ keyBoard.addEventListener('click', (e) =>{
     for (let i = 0; i < guess.length; i++){
         let x = document.querySelector(`#h${i}`);
         for (let i = 0; i < letter.length; i ++){
-            if(e.target.textContent === letter[i] ){;
+            if(e.target.textContent === letter[i]){
                 if (x.textContent === letter[i]){
                     x.className = "letter show";
-                }
+                    right ++; 
+                 } else if (e.target.textContent === done[i]){
+                    wrong ++;
+                 }
+                done.push(letter[i]);
             }
         }
-        if (x.className === 'letter show'){
-            right = true;
-        } else{
-            right = false;
-            console.log(right);
-        }
     }
-    let v = document.querySelectorAll('.letter show').length;
-    console.log(v);
-    if (right === false){
-        missed ++;
-        console.log(missed);
+    console.log(right);
+    const heart = Array.from(document.querySelectorAll('.tries')).pop();
+    if (right !== 1 && e.target.tagName === 'BUTTON' && wrong !== 0){
+        missed++;
+        console.log(`missed: ${missed}`);
+        let dead = document.createElement('li');
+        dead.innerHTML = '<img src="images/lostHeart.png" height="35px" width="30px">'
+        heart.parentNode.replaceChild(dead, heart);
+        dead.className = "dead";
+    }else if (e.target.tagName === 'BUTTON' && wrong === 0){
+        time ++;
     }
+    right = 0;
+    wrong = 0;
+    if (missed === 5){
+        overlay.className = 'start lose';
+        overlay.style.display = 'flex';
+        startBTN.textContent = 'Try Again';
+    }else if (time === guess.length){
+        overlay.className = 'start win';
+        overlay.style.display = 'flex';
+        startBTN.textContent = 'Play Again';
+    } 
+
 });
 
 
