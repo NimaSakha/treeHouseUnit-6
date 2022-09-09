@@ -15,8 +15,8 @@ const guess = phrase[num];
 //lives var
 let missed = 0;
 let letterVal = -1;
-let right = 0;
-let wrong = 0;
+let right = false;
+let wrong = false;
 let time  = 0;
 let done = [];
 //tests
@@ -50,28 +50,29 @@ keyBoard.addEventListener('click', (e) =>{
             if(e.target.textContent === letter[i]){
                 if (x.textContent === letter[i]){
                     x.className = "letter show";
-                    right ++; 
-                 } else if (e.target.textContent === done[i]){
-                    wrong ++;
+                    right = true;
+                    done.push(letter[i]);
+                    console.log(done);
                  }
-                done.push(letter[i]);
+                console.log(`wrong: ${wrong}`);
+                
             }
         }
     }
     console.log(right);
     const heart = Array.from(document.querySelectorAll('.tries')).pop();
-    if (right !== 1 && e.target.tagName === 'BUTTON' && wrong !== 0){
+    if (right !== true && e.target.tagName === 'BUTTON' && wrong === false){
         missed++;
         console.log(`missed: ${missed}`);
         let dead = document.createElement('li');
         dead.innerHTML = '<img src="images/lostHeart.png" height="35px" width="30px">'
         heart.parentNode.replaceChild(dead, heart);
         dead.className = "dead";
-    }else if (e.target.tagName === 'BUTTON' && wrong === 0){
+    }else if (e.target.tagName === 'BUTTON' && wrong === false){
         time ++;
     }
-    right = 0;
-    wrong = 0;
+    right = false;
+    wrong = false;
     if (missed === 5){
         overlay.className = 'start lose';
         overlay.style.display = 'flex';
