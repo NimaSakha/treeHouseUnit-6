@@ -9,16 +9,17 @@ const list = document.querySelector('#phrase ul');
 // word guess var 
 const phrase = ['world', 'resting', 'magic', 'green', 'tickle'];
 const num = Math.floor(Math.random()*5);
-const letter = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+let letter = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 const guess = phrase[num];
 
 //lives var
 let missed = 0;
 let letterVal = -1;
 let right = false;
-let wrong = false;
+let wrong = true;
 let time  = 0;
 let done = [];
+let donei  = done;
 //tests
 console.log(guess);
 
@@ -42,6 +43,13 @@ for (let i = 0; i < guess.length; i++){
 
 //keyboard
 
+// if letter has already been pressed
+function pressed(){
+    for (let i = 0; i < done.length; i++){
+        donei = done[i];
+    }
+}
+
 keyBoard.addEventListener('click', (e) =>{
     const x = document.querySelector('.letter');
     for (let i = 0; i < guess.length; i++){
@@ -51,11 +59,14 @@ keyBoard.addEventListener('click', (e) =>{
                 if (x.textContent === letter[i]){
                     x.className = "letter show";
                     right = true;
+                    wrong = false;
                     done.push(letter[i]);
                     console.log(done);
                  }
                 console.log(`wrong: ${wrong}`);
                 
+            } else if (e.target.textContent === donei){
+                wrong = false;
             }
         }
     }
@@ -72,7 +83,7 @@ keyBoard.addEventListener('click', (e) =>{
         time ++;
     }
     right = false;
-    wrong = false;
+    wrong = true;
     if (missed === 5){
         overlay.className = 'start lose';
         overlay.style.display = 'flex';
