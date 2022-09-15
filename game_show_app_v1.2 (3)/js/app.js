@@ -45,8 +45,6 @@ let right = false;
 let done = [];
 let letteri = letter;
 let used = false;
-//tests
-console.log(guess);
 
 //start btn
 startBTN.addEventListener("click", () => {
@@ -63,6 +61,7 @@ for (let i = 0; i < guess.length; i++) {
   list.appendChild(x);
   let t = document.createTextNode(guess[i]);
   x.appendChild(t);
+  x.style.transition = "1s";
 }
 
 //keyboard
@@ -83,21 +82,18 @@ keyBoard.addEventListener("click", (e) => {
       }
     }
   }
-  console.log(letteri);
-  console.log(right);
+
   const heart = Array.from(document.querySelectorAll(".tries")).pop();
 
   for (let i = -1; i < done.length; i++) {
     if (done[i] === letteri) {
       used = true;
-      console.log(`used: ${used}`);
     }
   }
   done.push(letteri);
   if (used !== true) {
     if (right !== true && e.target.tagName === "BUTTON") {
       missed++;
-      console.log(`missed: ${missed}`);
       let dead = document.createElement("li");
       dead.innerHTML =
         '<img src="images/lostHeart.png" height="35px" width="30px">';
@@ -107,8 +103,8 @@ keyBoard.addEventListener("click", (e) => {
   }
 
   right = false;
+  used = false;
   const correct = document.querySelectorAll(".show").length;
-  console.log(correct);
   if (missed === 5) {
     overlay.className = "start lose";
     overlay.style.display = "flex";
