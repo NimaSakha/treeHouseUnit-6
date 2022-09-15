@@ -41,12 +41,10 @@ const guess = phrase[num];
 
 //lives var
 let missed = 0;
-let letterVal = -1;
 let right = false;
-let wrong = false;
-let time = 0;
 let done = [];
 let letteri = letter;
+let used = false;
 //tests
 console.log(guess);
 
@@ -78,44 +76,44 @@ keyBoard.addEventListener("click", (e) => {
     for (let i = 0; i < letter.length; i++) {
       if (e.target.textContent === letter[i]) {
         letteri = letter[i];
-        console.log(letteri);
-        console.log(x.textContent);
-        for (let i = -1; i < done.length; i++) {
-          if (letteri !== done[i]) {
-            if (x.textContent === letteri) {
-              x.className = "letter show";
-              right = true;
-              done.push(letter[i]);
-              console.log(done);
-            }
-          } else {
-            wrong = true;
-          }
+        if (x.textContent === letteri) {
+          x.className = "letter show";
+          right = true;
         }
       }
     }
   }
+  console.log(letteri);
   console.log(right);
   const heart = Array.from(document.querySelectorAll(".tries")).pop();
-  if (right !== true && e.target.tagName === "BUTTON" && wrong === false) {
-    missed++;
-    console.log(`missed: ${missed}`);
-    let dead = document.createElement("li");
-    dead.innerHTML =
-      '<img src="images/lostHeart.png" height="35px" width="30px">';
-    heart.parentNode.replaceChild(dead, heart);
-    dead.className = "dead";
-  } else if ((wrong = true)) {
-  } else if (e.target.tagName === "BUTTON") {
-    time++;
+
+  for (let i = -1; i < done.length; i++) {
+    if (done[i] === letteri) {
+      used = true;
+      console.log(`used: ${used}`);
+    }
   }
+  done.push(letteri);
+  if (used !== true) {
+    if (right !== true && e.target.tagName === "BUTTON") {
+      missed++;
+      console.log(`missed: ${missed}`);
+      let dead = document.createElement("li");
+      dead.innerHTML =
+        '<img src="images/lostHeart.png" height="35px" width="30px">';
+      heart.parentNode.replaceChild(dead, heart);
+      dead.className = "dead";
+    }
+  }
+
   right = false;
-  wrong = false;
+  const correct = document.querySelectorAll(".show").length;
+  console.log(correct);
   if (missed === 5) {
     overlay.className = "start lose";
     overlay.style.display = "flex";
     startBTN.textContent = "Try Again";
-  } else if (time === guess.length) {
+  } else if (correct === guess.length) {
     overlay.className = "start win";
     overlay.style.display = "flex";
     startBTN.textContent = "Play Again";
